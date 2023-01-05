@@ -1,0 +1,25 @@
+package ${packageName}.domain;
+
+import lombok.Data;
+import io.swagger.annotations.*;
+
+import java.util.Date;
+
+import com.tianyuan.common.core.web.domain.ResultCommon;
+
+/**
+ * ${functionName}查询返回对象
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+
+@Data
+@ApiModel(description = "${functionName}查询返回对象")
+public class ${ClassName}Vo extends ResultCommon {
+#foreach ($column in $columns)
+
+    @ApiModelProperty(value = "$column.columnComment")
+    private $column.javaType $column.javaField;
+#end
+}

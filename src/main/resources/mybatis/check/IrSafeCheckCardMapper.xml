@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.check.mapper.IrSafeCardMapper">
+
+    <select id="examineCountWatch" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.ExamineCount">
+        select
+        count(*) as observeTimes
+        from
+        ir_safe_card
+        <where>
+            status = 2 and delete_flag = 0
+            <if test="data.date != null">
+                AND check_time = #{data.date}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.check.mapper.IrSafeCheckErrDescMapper">
+
+    <select id="checkErrCountTol" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.CheckErrCount">
+        select
+        count(*) as totalCount,
+        err_level
+        from
+        ir_safe_check_err_desc
+        <where>
+            --3-整改中 4-验收中 5-已验收
+            status in (3,4,5) and delete_flag = 0
+            <if test="data.startDate != null">
+                AND check_date &gt;= #{data.startDate}
+            </if>
+            <if test="data.date != null">
+                AND check_date &lt;= #{data.date}
+            </if>
+        </where>
+        group by err_level
+    </select>
+
+    <select id="checkErrCountRef" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.CheckErrCount">
+        select
+        count(*) as modifyCount,
+        err_level
+        from
+        ir_safe_check_err_desc
+        <where>
+            --5-已验收
+            status = 5 and delete_flag = 0
+            <if test="data.startDate != null">
+                AND check_date &gt;= #{data.startDate}
+            </if>
+            <if test="data.date != null">
+                AND check_date &lt;= #{data.date}
+            </if>
+        </where>
+        group by err_level
+    </select>
+
+    <select id="dangerCount" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.ExamineCount">
+        select
+        count(*) as dangerCount
+        from
+        ir_safe_check_err_desc
+        <where>
+            --2-隐患来源-检查记录
+            err_source = 2
+            --2-待评估 3-整改中 4-验收中 5-已验收
+            and status in(2,3,4,5)
+            and delete_flag = 0
+            <if test="data.date != null">
+                AND check_date &lt;= #{data.date}
+            </if>
+        </where>
+    </select>
+
+    <select id="unsafeBehaviorCount"
+            resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.ExamineCount">
+        select
+        count(*) as unsafeBehaviorCount
+        from
+        ir_safe_check_err_desc
+        <where>
+            --4-隐患来源-安全观察卡
+            err_source = 4
+            --2-待评估 3-整改中 4-验收中 5-已验收
+            and status in(2,3,4,5)
+            and delete_flag = 0
+            <if test="data.date != null">
+                AND check_date &lt;= #{data.date}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateIrSafeCheckErr">
+        update ir_safe_check_err_desc
+        <set>
+            <if test="data.noticeNo != null">
+                notice_no = #{data.noticeNo},
+            </if>
+            <if test="data.orgId != null">
+                org_id = #{data.orgId},
+            </if>
+            <if test="data.tenantId != null">
+                tenant_id = #{data.tenantId},
+            </if>
+            <if test="data.functionalLocation != null">
+                functional_location = #{data.functionalLocation},
+            </if>
+            <if test="data.functionalDescription != null">
+                functional_description = #{data.functionalDescription},
+            </if>
+            <if test="data.equipmentCode != null">
+                equipment_code = #{data.equipmentCode},
+            </if>
+            <if test="data.equipmentName != null">
+                equipment_name = #{data.equipmentName},
+            </if>
+            <if test="data.deviceNo != null">
+                device_no = #{data.deviceNo},
+            </if>
+            <if test="data.errDesc != null">
+                err_desc = #{data.errDesc},
+            </if>
+            <if test="data.areaDescription != null">
+                area_description = #{data.areaDescription},
+            </if>
+            <if test="data.priority != null">
+                priority = #{data.priority},
+            </if>
+            <if test="data.faultEffect != null">
+                fault_effect = #{data.faultEffect},
+            </if>
+            <if test="data.faultStartDate != null">
+                fault_start_date = #{data.faultStartDate},
+            </if>
+            <if test="data.faultEndDate != null">
+                fault_end_date = #{data.faultEndDate},
+            </if>
+        </set>
+        where err_id = #{data.errId}
+    </update>
+
+    <select id="checkErrCountTolByDept"
+            resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeErrRate">
+        select
+        count(*) as totalCount,
+        err_dept_id
+        from
+        ir_safe_check_err_desc
+        <where>
+            --2-待评估 3-整改中 4-验收中 5-已验收
+            status in (2,3,4,5) and delete_flag = 0
+            AND check_date &gt;= #{data.startDate}
+            AND check_date &lt; #{data.endDate}
+        </where>
+        group by err_dept_id
+    </select>
+
+    <select id="checkErrCountRefByDept"
+            resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeErrRate">
+        select
+        count(*) as modifyCount,
+        err_dept_id
+        from
+        ir_safe_check_err_desc
+        <where>
+            --5-已验收
+            status = 5 and delete_flag = 0
+            AND check_date &gt;= #{data.startDate}
+            AND check_date &lt; #{data.endDate}
+        </where>
+        group by err_dept_id
+    </select>
+
+    <select id="waitDevelopCount" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.MyCheckErrDsc">
+        select
+        count(*) as waitDevelopCount
+        from
+        ir_safe_check_err_desc
+        where
+         --2-待评估
+            status = 2 and delete_flag = 0
+            AND check_date &gt;= #{data.startDate}
+            AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="beOverdueCount" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.MyCheckErrDsc">
+        select
+        count(*) as beOverdueCount
+        from
+        ir_safe_check_err_desc
+        where
+         --3-整改中 4-验收中 5-已验收
+            status in (3,4,5)
+            and delete_flag = 0
+            and ys_date &gt; rect_end_date
+            or
+            (ys_date = null or  rect_end_date &lt; #{data.nowDate});
+    </select>
+
+    <select id="checkCount" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.MyCheckErrDsc">
+        select
+        count(*) as checkCount
+        from
+        ir_safe_check_err_desc
+        where
+         --5-已验收
+            status = 5
+            and delete_flag = 0
+            and err_dept_id = #{data.errDeptId}
+            AND check_date &gt;= #{data.startDate}
+            AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="totalCount" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.MyCheckErrDsc">
+       select
+        count(*) as checkCount
+        from
+        ir_safe_check_err_desc
+        where
+         --2-待评估 3-整改中 4-验收中 5-已验收
+            status in(2,3,4,5)
+            and delete_flag = 0
+            and err_dept_id = #{data.errDeptId}
+            AND check_date &gt;= #{data.startDate}
+            AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="safeErrAnalysisOne"
+            resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeErrAnalysis">
+        select
+        count(*) as errCount,
+        err_level as errlevel,
+        err_type as errType
+        from
+        ir_safe_check_err_desc
+       where
+        -- 4-验收中 5-已验收
+        status in (3,4,5) and delete_flag = 0   and err_level = 0
+        AND check_date &gt;= #{data.startDate}
+        AND check_date &lt; #{data.endDate}
+        group by  err_type
+    </select>
+
+    <select id="safeErrAnalysisTwo"
+            resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeErrAnalysis">
+        select
+        count(*) as errCount,
+        err_level as errlevel,
+        err_type as errType
+        from
+        ir_safe_check_err_desc
+       where
+        --3-整改中 4-验收中 5-已验收
+        status in (3,4,5) and delete_flag = 0   and err_level = 1
+        AND check_date &gt;= #{data.startDate}
+        AND check_date &lt; #{data.endDate}
+        group by  err_type
+    </select>
+
+    <select id="submitCount" resultType="integer">
+        select
+        count(*) as submitCount
+        from
+        ir_safe_check_err_desc
+        where
+         --2-待评估 3-整改中 4-验收中 5-已验收
+        status in (2,3,4,5) and delete_flag = 0
+        AND check_date &gt;= #{data.startDate}
+        AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="refCount" resultType="integer">
+        select
+        count(*) as refCount
+        from
+        ir_safe_check_err_desc
+        where
+         --5-已验收
+        status = 5 and delete_flag = 0
+        AND check_date &gt;= #{data.startDate}
+        AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="beOverdueCounts" resultType="integer">
+        select
+        count(*) as beOverdueCount
+        from
+        ir_safe_check_err_desc
+        where
+         --5-已验收
+        status = 5 and delete_flag = 0
+        and ys_date &gt; rect_end_date
+        AND check_date &gt;= #{data.startDate}
+        AND check_date &lt; #{data.endDate}
+    </select>
+
+    <select id="listAllByIds"
+            resultType="com.tianyuan.contractor.project.check.param.irSafeCheckErrDesc.vo.IrCheckErrGovernmentVo">
+        select
+        err_no,
+        err_reason,
+        err_id,
+        uuid,
+        err_desc,
+        err_level,
+        report_user_id,
+        check_date,
+        err_source,
+        rect_type,
+        err_type,
+        rect_real_user_id,
+        rect_end_date,
+        ys_user_id,
+        ys_date,
+        status,
+        create_id,
+        create_name,
+        create_time,
+        update_id,
+        update_name,
+        update_time,
+        delete_flag,
+        org_id
+        from
+        ir_safe_check_err_desc
+        <where>
+            -- and err_source = '8'
+            and target_id is not null
+            <if test="ids!=null">
+                and id in
+                <foreach collection="ids" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="searchTime!=null">
+                and update_time &gt;= #{searchTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

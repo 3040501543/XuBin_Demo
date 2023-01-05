@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.check.mapper.IrSafeCheckErrDescMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tianyuan.contractor.project.check.domain.IrSafeCheckErrDesc">
+        <id column="err_id" property="errId" />
+        <result column="check_case_id" property="checkCaseId" />
+        <result column="check_pro_name" property="checkProName" />
+        <result column="check_date" property="checkDate" />
+        <result column="check_area" property="checkArea" />
+        <result column="err_desc" property="errDesc" />
+        <result column="err_type" property="errType" />
+        <result column="device_no" property="deviceNo" />
+        <result column="err_area" property="errArea" />
+        <result column="err_rule" property="errRule" />
+        <result column="rect_meas" property="rectMeas" />
+        <result column="rect_userid" property="rectUserid" />
+        <result column="rect_type" property="rectType" />
+        <result column="around_card_no" property="aroundCardNo" />
+        <result column="err_no" property="errNo" />
+        <result column="check_group_user" property="checkGroupUser" />
+        <result column="err_step" property="errStep" />
+        <result column="is_self" property="isSelf" />
+        <result column="check_name" property="checkName" />
+        <result column="reback_opinion" property="rebackOpinion" />
+        <result column="three_cmpy" property="threeCmpy" />
+        <result column="pg_userid" property="pgUserid" />
+        <result column="err_source" property="errSource" />
+        <result column="report_user_id" property="reportUserId" />
+        <result column="err_reason" property="errReason" />
+        <result column="rect_money" property="rectMoney" />
+        <result column="rect_end_date" property="rectEndDate" />
+        <result column="rect_result" property="rectResult" />
+        <result column="need_repair" property="needRepair" />
+        <result column="rect_info" property="rectInfo" />
+        <result column="status" property="status" />
+        <result column="guapai_doban" property="guapaiDoban" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="ys_verification" property="ysVerification" />
+        <result column="ff_measures" property="ffMeasures" />
+        <result column="job_id" property="jobId" />
+        <result column="is_job" property="isJob" />
+        <result column="is_inspection" property="isInspection" />
+        <result column="is_watch" property="isWatch" />
+        <result column="is_diag" property="isDiag" />
+        <result column="area_director_idea" property="areaDirectorIdea" />
+        <result column="fzr_dept" property="fzrDept" />
+        <result column="fileids" property="fileids" />
+        <result column="err_level" property="errLevel" />
+        <result column="rect_case" property="rectCase" />
+        <result column="check_type_desc" property="checkTypeDesc" />
+        <result column="ys_user_id" property="ysUserId" />
+        <result column="check_user_id" property="checkUserId" />
+        <result column="fzr_dept_id" property="fzrDeptId" />
+        <result column="rect_join_user_ids" property="rectJoinUserIds" />
+        <result column="check_dept_id" property="checkDeptId" />
+        <result column="err_dept_id" property="errDeptId" />
+        <result column="rect_dept_id" property="rectDeptId" />
+        <result column="pg_dept_id" property="pgDeptId" />
+        <result column="diagnose_dept_id" property="diagnoseDeptId" />
+        <result column="assessment_fileids" property="assessmentFileids" />
+        <result column="rectification_fileids" property="rectificationFileids" />
+        <result column="reject_opinion" property="rejectOpinion" />
+        <result column="check_opinion" property="checkOpinion" />
+        <result column="check_fileids" property="checkFileids" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_name" property="updateName" />
+        <result column="update_time" property="updateTime" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="org_id" property="orgId" />
+        <result column="err_type_id" property="errTypeId" />
+        <result column="ys_date" property="ysDate" />
+        <result column="rect_real_user_id" property="rectRealUserId" />
+        <result column="check_res_id" property="checkResId" />
+        <result column="report_date" property="reportDate" />
+        <result column="notice_no" property="noticeNo" />
+        <result column="functional_location" property="functionalLocation" />
+        <result column="functional_description" property="functionalDescription" />
+        <result column="equipment_code" property="equipmentCode" />
+        <result column="equipment_name" property="equipmentName" />
+        <result column="area_description" property="areaDescription" />
+        <result column="priority" property="priority" />
+        <result column="fault_effect" property="faultEffect" />
+        <result column="fault_start_date" property="faultStartDate" />
+        <result column="fault_end_date" property="faultEndDate" />
+        <result column="uuid" property="uuid" />
+        <result column="target_id" property="targetId" />
+        <result column="unit_id" property="unitId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        err_id, check_case_id, check_pro_name, check_date, check_area, err_desc, err_type, device_no, err_area, err_rule, rect_meas, rect_userid, rect_type, around_card_no, err_no, check_group_user, err_step, is_self, check_name, reback_opinion, three_cmpy, pg_userid, err_source, report_user_id, err_reason, rect_money, rect_end_date, rect_result, need_repair, rect_info, status, guapai_doban, delete_flag, ys_verification, ff_measures, job_id, is_job, is_inspection, is_watch, is_diag, area_director_idea, fzr_dept, fileids, err_level, rect_case, check_type_desc, ys_user_id, check_user_id, fzr_dept_id, rect_join_user_ids, check_dept_id, err_dept_id, rect_dept_id, pg_dept_id, diagnose_dept_id, assessment_fileids, rectification_fileids, reject_opinion, check_opinion, check_fileids, create_id, create_name, create_time, update_id, update_name, update_time, tenant_id, org_id, err_type_id, ys_date, rect_real_user_id, check_res_id, report_date, notice_no, functional_location, functional_description, equipment_code, equipment_name, area_description, priority, fault_effect, fault_start_date, fault_end_date, uuid, target_id, unit_id
+    </sql>
+
+</mapper>

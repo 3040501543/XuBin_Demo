@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.check.mapper.IrSafeCheckErrPersonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tianyuan.contractor.project.check.domain.IrSafeCheckErrPerson">
+        <id column="id" property="id" />
+        <result column="rect_person_id" property="rectPersonId" />
+        <result column="rect_time" property="rectTime" />
+        <result column="err_id" property="errId" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_name" property="updateName" />
+        <result column="update_time" property="updateTime" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="org_id" property="orgId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, rect_person_id, rect_time, err_id, create_id, create_name, create_time, update_id, update_name, update_time, delete_flag, tenant_id, org_id
+    </sql>
+
+    <select id="listAllByErrId" resultType="com.tianyuan.contractor.project.check.param.irSafeCheckErrDesc.vo.RectJoinUserVo">
+        id,rect_person_id as rectJoinUserId
+        from ir_safe_check_err_person
+        <where>
+            err_id = #{errId}
+        </where>
+    </select>
+
+</mapper>

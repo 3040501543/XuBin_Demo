@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.webservice.mapper.SapFaultReportMapper">
+
+    <select id="checkCollectBySap" resultType="com.tianyuan.contractor.project.check.domain.IrSafeCheckErrDesc">
+        select * from ir_safe_check_err_desc
+        where
+        tenant_id = #{tenantId}
+        and org_id = #{orgId}
+        AND notice_no = #{QUNUM}
+        and delete_flag = 0
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+        /**
+        * 列表
+        */
+        IPage<${entity}Vo> list(${entity}Dto dto);
+
+        /**
+         * 保存
+         */
+        boolean saveOrUpdate(@RequestBody ${entity}Dto dto);
+
+        /**
+         * 详情
+         */
+        ${entity}Vo getInfo(Long id);
+
+
+
+}
+#end

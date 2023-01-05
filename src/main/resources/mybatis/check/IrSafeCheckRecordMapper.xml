@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianyuan.contractor.project.check.mapper.IrSafeCheckRecordMapper">
+
+    <select id="examineCountRecord" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.ExamineCount">
+    select
+        count(*) as checkTimes
+        from
+        ir_safe_check_record
+       <where>
+        status = 2 and delete_flag = 0
+        <if test="data.date != null">
+            AND plan_begin = #{data.date}
+        </if>
+       </where>
+    </select>
+
+    <select id="safeCheckCountYear" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeCheckCount">
+        select
+        count(*) as securityCheckCountYear
+        from
+        ir_safe_check_record
+        <where>
+            status = 2 and delete_flag = 0
+            <if test="data.startDate != null">
+                AND plan_begin &gt;= #{data.startDate}
+            </if>
+            <if test="data.date != null">
+                AND plan_begin &lt;= #{data.date}
+            </if>
+        </where>
+    </select>
+
+    <select id="safeCheckCountMonth" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeCheckCount">
+        select
+        count(*) as securityCheckCountMonth
+        from
+        ir_safe_check_record
+        <where>
+            status = 2 and delete_flag = 0
+            <if test="data.startMonthDate != null">
+                AND plan_begin &gt;= #{data.startMonthDate}
+            </if>
+            <if test="data.date != null">
+                AND plan_begin &lt;= #{data.date}
+            </if>
+        </where>
+    </select>
+
+    <select id="safeErrRate" resultType="com.tianyuan.contractor.project.webApi.zhongKong.param.vo.SafeCheckCount">
+
+    </select>
+
+
+</mapper>

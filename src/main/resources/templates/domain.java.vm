@@ -1,0 +1,50 @@
+package ${packageName}.domain;
+
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+
+import java.util.Date;
+
+import com.tianyuan.common.core.web.domain.ResultCommon;
+
+/**
+ * ${functionName}对象
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud)
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+@TableName("${tableName}")
+public class ${ClassName} extends ResultCommon{
+
+    private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#end
+    /** $column.columnComment */
+#if($column.javaField.equals("createId") || $column.javaField.equals("createName") || $column.javaField.equals("createTime") || $column.javaField.equals("deleteFlag"))
+    @TableField(fill = FieldFill.INSERT)
+#end
+#if($column.javaField.equals("updateId") || $column.javaField.equals("updateName") || $column.javaField.equals("updateTime"))
+    @TableField(fill = FieldFill.UPDATE)
+#end
+#if($column.isPk==1)
+    @TableId(value = "$column.columnName", type = IdType.AUTO)
+    private $column.javaType $column.javaField;
+#else
+    private $column.javaType $column.javaField;
+#end
+#end
+}

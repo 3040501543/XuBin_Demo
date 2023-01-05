@@ -1,0 +1,34 @@
+package ${packageName}.domain;
+
+import com.tianyuan.common.core.annotation.validator.MyValid;
+import lombok.Data;
+import io.swagger.annotations.*;
+
+import java.util.Date;
+
+import java.io.Serializable;
+
+/**
+ * ${functionName}编辑对象
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+
+@Data
+@ApiModel(description = "${functionName}编辑对象")
+public class Edit${ClassName}Dto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+#foreach ($column in $columns)
+
+    @ApiModelProperty(value = "$column.columnComment")
+#if($column.columnType.contains("varchar"))
+#set($lengthBeginIndex = $column.columnType.indexOf("(") + 1)
+#set($lengthEndIndex = $column.columnType.indexOf(")"))
+#set($length = $column.columnType.substring($lengthBeginIndex, $lengthEndIndex))
+    @MyValid(describe = "$column.columnComment", length = $length)
+#end
+    private $column.javaType $column.javaField;
+#end
+}

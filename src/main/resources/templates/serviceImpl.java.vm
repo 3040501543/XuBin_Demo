@@ -1,0 +1,101 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Autowired
+    public ${table.mapperName} ${table.entityPath}Service;
+
+    /**
+    * 列表
+    */
+    public IPage<${entity}Vo> list(${entity}Dto dto){
+        LambdaQueryWrapper<${entity}> lqw = new LambdaQueryWrapper<>();
+        //写逻辑
+        #foreach($field in ${table.fields})
+                #if(${field.propertyType}=="String"&&
+                        ${field.propertyName}!="createId"&&
+                        ${field.propertyName}!="createName"&&
+                        ${field.propertyName}!="createTime"&&
+                        ${field.propertyName}!="updateId"&&
+                        ${field.propertyName}!="updateName"&&
+                        ${field.propertyName}!="updateTime"&&
+                        ${field.propertyName}!="deleteFlag"&&
+                        ${field.propertyName}!="deleteId"&&
+                        ${field.propertyName}!="deleteName"&&
+                        ${field.propertyName}!="deleteTime"&&
+                        ${field.propertyName}!="orgId"&&
+                        ${field.propertyName}!="tenantId")
+                if (StringUtils.isNotEmpty(dto.get${field.capitalName}())) {
+                lqw.eq(${entity}::get${field.capitalName}, dto.get${field.capitalName}());
+                }
+                #end
+                #if(${field.propertyType}=="Date"&&
+                        ${field.propertyName}!="createId"&&
+                        ${field.propertyName}!="createName"&&
+                        ${field.propertyName}!="createTime"&&
+                        ${field.propertyName}!="updateId"&&
+                        ${field.propertyName}!="updateName"&&
+                        ${field.propertyName}!="updateTime"&&
+                        ${field.propertyName}!="deleteFlag"&&
+                        ${field.propertyName}!="deleteId"&&
+                        ${field.propertyName}!="deleteName"&&
+                        ${field.propertyName}!="deleteTime"&&
+                        ${field.propertyName}!="orgId"&&
+                        ${field.propertyName}!="tenantId")
+                if (StringUtils.isNotEmpty(dto.get${field.capitalName})) {
+                lqw.ge(${entity}::get${field.capitalName}, dto.get${field.capitalName};
+                }
+                #end
+
+        #end
+
+
+        IPage page = page(dto.popPage(), lqw);
+        List<${entity}Vo> voList = Convert.toList(${entity}Vo.class, page.getRecords());
+        page.setRecords(voList);
+        return page;
+    }
+
+    /**
+     * 保存
+     */
+    public boolean saveOrUpdate(@RequestBody ${entity}Dto dto){
+        ${entity} vo = BeanUtil.toBean(dto, ${entity}.class);
+        return  saveOrUpdate(vo);
+    }
+
+    /**
+     * 详情
+     */
+    public ${entity}Vo getInfo(Long id){
+        ${entity}Vo resultVo = new ${entity}Vo();
+        ${entity} byId = getById(id);
+        BeanUtil.copyProperties(byId,resultVo);
+        return resultVo;
+    }
+
+
+}
+#end
